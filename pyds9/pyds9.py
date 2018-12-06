@@ -81,14 +81,17 @@ def get_xpans_ds9():
         # look for a "SAOImage DS9.app" directory in ``/Applications``,
         # ``$HOME`` and ``$HOME/Applications``. If it's found use the mac
         # ``open`` command
-        ds9_app = "SAOImage DS9.app"
         user_dir = os.path.expanduser('~')
         for p in ['/Applications', user_dir,
                   os.path.join(user_dir, 'Applications'),
                   os.path.join(user_dir, 'Desktop')]:
-            ds9_app_dir = os.path.join(p, ds9_app)
-            if os.path.exists(ds9_app_dir):
-                ds9 = ['open', '-a', ds9_app_dir, '--args']
+            ds9_app_dir_old = os.path.join(p, "SAOImage DS9.app")
+            ds9_app_dir_v76 = os.path.join(p, "SAOImageDS9.app")  # 7.6+
+            if os.path.exists(ds9_app_dir_old):
+                ds9 = ['open', '-a', ds9_app_dir_old, '--args']
+                break
+            elif os.path.exists(ds9_app_dir_v76):
+                ds9 = ['open', '-a', ds9_app_dir_v76, '--args']
                 break
 
         ds9_warning = ("Can't locate the X11 DS9 executable in your PATH or"
